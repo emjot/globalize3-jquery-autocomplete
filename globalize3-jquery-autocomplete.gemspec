@@ -23,5 +23,8 @@ Gem::Specification.new do |spec|
   spec.add_runtime_dependency "rails3-jquery-autocomplete", "~> 1.0"
 
   spec.add_development_dependency "bundler", "~> 1.3"
+  spec.add_development_dependency "rspec-rails", "~> 2.8.0"
+  spec.add_development_dependency "database_cleaner", "~> 0.6"
+  spec.add_development_dependency "sqlite3"
   spec.add_development_dependency "rake"
 end
