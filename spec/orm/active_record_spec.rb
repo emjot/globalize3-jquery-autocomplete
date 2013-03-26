@@ -30,28 +30,60 @@ describe 'Globalize3JQueryAutocomplete::Orm::ActiveRecord' do
   
   describe '#get_autocomplete_items' do
     before(:each) do
-      @matching_posts = %w(query3 QUERY query2).collect { |title| Post.create!(:title => title) }
-      other_posts = %w(myquery Foo bar).collect { |title| Post.create!(:title => title) }
+      # create 'en' posts
+      @matching_en_posts = %w(query3 QUERY query2).collect { |title| Post.create!(:title => title, :untranslated => title) }
+      other_en_posts = %w(myquery Foo bar).collect { |title| Post.create!(:title => title, :untranslated => title) }
       Globalize.with_locale(:de) do
-        matching_de_posts = %w(queryde QUERYde2).collect { |title| Post.create!(:title => title) }
-        other_de_posts = %w(myqueryde DE).collect { |title| Post.create!(:title => title) }
+        # add a 'de' translation to the first 'en' post
+        @matching_en_de_posts = [@matching_en_posts.first]
+        @matching_en_de_posts.first.update_attributes!(:title => 'query_de')
+
+        @matching_de_posts = @matching_en_de_posts.dup
+
+        # create 'de' posts
+        @matching_de_posts += %w(queryde QUERYde2).collect { |title| Post.create!(:title => title, :untranslated => title) }
+        other_de_posts = %w(myqueryde DE).collect { |title| Post.create!(:title => title, :untranslated => title) }
       end
 
-      model = Post
-      term = 'query'
-      method = :title
+      @matching_posts = (@matching_de_posts + @matching_en_posts).uniq
 
       @options = {
-        :model => model,
-        :term => term,
-        :method => method,
+        :model => Post,
+        :term => 'query',
         :options => {}
       }
     end
 
-    it 'should retrieve the items from ActiveRecord' do
-      helper.get_autocomplete_items(@options).should == @matching_posts.sort_by(&:title)
+    it 'should work with an untranslated column (untranslated model)' do
+      matching = Untranslated.create!(:name => 'queryme')
+      Untranslated.create!(:name => 'foo')
+      @options.merge!(:model => Untranslated, :method => :name)
+
+      helper.get_autocomplete_items(@options).should == [matching]
     end
+
+    it 'should work with an untranslated column (translated model)' do
+      @options.merge!(:method => :untranslated)
+      helper.get_autocomplete_items(@options).should == @matching_posts.sort_by(&:untranslated)
+    end
+
+    it 'should work with a translated column' do
+      @options.merge!(:method => :title)
+      helper.get_autocomplete_items(@options).should == @matching_en_posts.sort_by(&:title)
+    end
+
+    describe 'with :locale option' do
+      it "should retrieve all translated locales when empty array" do
+        @options.merge!(:method => :title, :options => {:locale => []})
+        helper.get_autocomplete_items(@options).to_set.should == @matching_posts.to_set
+      end
+
+      it "should retrieve the requested locales when not empty" do
+        @options.merge!(:method => :title, :options => {:locale => :de})
+        helper.get_autocomplete_items(@options).to_set.should == @matching_de_posts.to_set
+      end
+    end
+
   end
   
   describe '#get_autocomplete_select_clause' do

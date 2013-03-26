@@ -27,10 +27,20 @@ Or install it yourself as:
 Simply follow the documentation at (globalize3)[https://github.com/svenfuchs/globalize3] for how to translate your models
 and (rails3-jquery-autocomplete)[https://github.com/crowdint/rails3-jquery-autocomplete] for how to set up autocomplete.
 
-## TODO / Future Plans
+If you want to autocomplete in context of the current locale, you don't need any additional configuration.
 
-* Support mongoid and mongomapper
-* Tests!
+You can customize the locale behaviour via the `:locale` option when you specify `autocomplete` in your controller:
+
+    # Given the 'name' column of your Brand model is translated:
+
+    autocomplete :brand, :name                                      # query for matches in the current locale (default)
+    autocomplete :brand, :name, :locale => nil                      # (same)
+    autocomplete :brand, :name, :locale => Globalize.locale         # (same)
+
+    autocomplete :brand, :name, :locale => [:en, :es]               # query for matches in 'en' and 'es' locales
+
+    autocomplete :brand, :name, :locale => []                       # query for matches in all translated locales
+    autocomplete :brand, :name, :locale => Brand.translated_locales # (same)
 
 ## Contributing
 

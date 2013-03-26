@@ -7,40 +7,57 @@ module Globalize3JQueryAutocomplete
       def self.included(base)
         base.send :include, InstanceMethods
         base.send :alias_method_chain, :get_autocomplete_items, :globalize3
+        base.send :alias_method_chain, :get_autocomplete_select_clause, :globalize3
       end
 
       module InstanceMethods
 
         def get_autocomplete_items_with_globalize3(parameters)
-          model            = parameters[:model]
-          translated_model = find_globalized_column_class_for(model, parameters[:method])
-          globalized       = translated_model.present?
+          model             = parameters[:model]
+          translated_model  = find_globalized_column_class_for(model, parameters[:method])
+          model_with_method = translated_model || model
           term    = parameters[:term]
           method  = parameters[:method]
           options = parameters[:options]
           scopes  = Array(options[:scopes])
           where   = options[:where]
           limit   = get_autocomplete_limit(options)
-          order   = get_autocomplete_order(method, options, (globalized ? translated_model : model))
+          order   = get_autocomplete_order(method, options, model_with_method)
 
           items = model.scoped
 
           scopes.each { |scope| items = items.send(scope) } unless scopes.empty?
 
-          items = items.select(get_autocomplete_select_clause(model, method, options)) unless options[:full_model]
-
-          if globalized
-            items.includes(translated_model)
-            items = items.where(get_autocomplete_where_clause(translated_model, term, method, options)).
-                limit(limit).order(order).uniq
-          else
-            items = items.where(get_autocomplete_where_clause(model, term, method, options)).
-                limit(limit).order(order).uniq
+          unless options[:full_model]
+            items = items.select(get_autocomplete_select_clause(model, model_with_method, method, options))
           end
+
+          if translated_model.present?
+            # use current locale if nil; all translated locales if empty; or the given locales if not empty
+            locales = if options[:locale].nil?
+                        [Globalize.locale]
+                      elsif options[:locale].blank?
+                        model.translated_locales
+                      else
+                        [*options[:locale]]
+                      end
+            items = items.with_translations(*locales)
+          end
+
+          items = items.where(get_autocomplete_where_clause(model_with_method, term, method, options)).
+              limit(limit).order(order)
 
           items = items.where(where) unless where.blank?
 
-          items
+          items.all.uniq
+        end
+
+        def get_autocomplete_select_clause_with_globalize3(model_with_pk, model_with_method, method, options)
+          pk_table_name = model_with_pk.table_name
+          m_table_name  = model_with_method.table_name
+
+          (["#{pk_table_name}.#{model_with_pk.primary_key}", "#{m_table_name}.#{method}"] +
+              (options[:extra_data].presence || []))
         end
 
         # If the attribute of the record is globalized, returns the translation class; otherwise, returns nil.
