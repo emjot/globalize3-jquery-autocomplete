@@ -1,5 +1,7 @@
 # globalize3-jquery-autocomplete
 
+[![Build Status](https://travis-ci.org/emjot/globalize3-jquery-autocomplete.png?branch=master)](https://travis-ci.org/emjot/globalize3-jquery-autocomplete)
+
 Use JQuery autocomplete (via [rails3-jquery-autocomplete](https://github.com/crowdint/rails3-jquery-autocomplete)) with [globalize3](https://github.com/svenfuchs/globalize3) translated ActiveRecord models.
 
 Internals: This gem patches the `get_autocomplete_items` method (provided by rails3-jquery-autocomplete) so it works with translated model columns.
