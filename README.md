@@ -1,6 +1,6 @@
-# Globalize3JqueryAutocomplete
+# globalize3-jquery-autocomplete
 
-Use JQuery autocomplete (via [rails3-jquery-autocomplete](https://github.com/crowdint/rails3-jquery-autocomplete) with [globalize3](https://github.com/svenfuchs/globalize3) translated ActiveRecord models.
+Use JQuery autocomplete (via [rails3-jquery-autocomplete](https://github.com/crowdint/rails3-jquery-autocomplete)) with [globalize3](https://github.com/svenfuchs/globalize3) translated ActiveRecord models.
 
 Internals: This gem patches the `get_autocomplete_items` method (provided by rails3-jquery-autocomplete) so it works with translated model columns.
 
@@ -10,17 +10,15 @@ rails3-jquery-autocomplete 1.0 and globalize3 0.3 are supported.
 
 ## Installation
 
+This gem is not yet available via rubygems.
+
 Add this line to your application's Gemfile:
 
-    gem 'globalize3-jquery-autocomplete'
+    gem 'globalize3-jquery-autocomplete', :git => 'https://github.com/emjot/globalize3-jquery-autocomplete.git'
 
 And then execute:
 
     $ bundle
-
-Or install it yourself as:
-
-    $ gem install globalize3-jquery-autocomplete
 
 ## Usage
 
