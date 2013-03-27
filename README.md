@@ -27,12 +27,13 @@ And then execute:
 Simply follow the documentation at [globalize3](https://github.com/svenfuchs/globalize3) for how to translate your models
 and [rails3-jquery-autocomplete](https://github.com/crowdint/rails3-jquery-autocomplete) for how to set up autocomplete.
 
-If you want to autocomplete in context of the current locale, you don't need any additional configuration.
+You don't need any additional configuration. As soon as a column is translated, autocomplete will automatically be in context of the current locale.
 
-Example:
+Example (in your controller):
 
-    # Given the 'name' column of your Brand model is translated:
-    autocomplete :brand, :name     # query for matches in the current locale
+    # query for matches in the current locale (given the 'name' column of your Brand model is translated):
+    autocomplete :brand, :name
+
 
 ## Contributing
 
