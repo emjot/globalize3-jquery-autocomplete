@@ -33,15 +33,7 @@ module Globalize3JQueryAutocomplete
           end
 
           if translated_model.present?
-            # use current locale if nil; all translated locales if empty; or the given locales if not empty
-            locales = if options[:locale].nil?
-                        [Globalize.locale]
-                      elsif options[:locale].blank?
-                        model.translated_locales
-                      else
-                        [*options[:locale]]
-                      end
-            items = items.with_translations(*locales)
+            items = items.with_translations(Globalize.locale)
           end
 
           items = items.where(get_autocomplete_where_clause(model_with_method, term, method, options)).

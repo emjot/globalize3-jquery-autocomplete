@@ -29,18 +29,10 @@ and [rails3-jquery-autocomplete](https://github.com/crowdint/rails3-jquery-autoc
 
 If you want to autocomplete in context of the current locale, you don't need any additional configuration.
 
-You can customize the locale behaviour via the `:locale` option when you specify `autocomplete` in your controller:
+Example:
 
     # Given the 'name' column of your Brand model is translated:
-
-    autocomplete :brand, :name                                      # query for matches in the current locale (default)
-    autocomplete :brand, :name, :locale => nil                      # (same)
-    autocomplete :brand, :name, :locale => Globalize.locale         # (same)
-
-    autocomplete :brand, :name, :locale => [:en, :es]               # query for matches in 'en' and 'es' locales
-
-    autocomplete :brand, :name, :locale => []                       # query for matches in all translated locales
-    autocomplete :brand, :name, :locale => Brand.translated_locales # (same)
+    autocomplete :brand, :name     # query for matches in the current locale
 
 ## Contributing
 

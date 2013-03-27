@@ -72,18 +72,6 @@ describe 'Globalize3JQueryAutocomplete::Orm::ActiveRecord' do
       helper.get_autocomplete_items(@options).should == @matching_en_posts.sort_by(&:title)
     end
 
-    describe 'with :locale option' do
-      it "should retrieve all translated locales when empty array" do
-        @options.merge!(:method => :title, :options => {:locale => []})
-        helper.get_autocomplete_items(@options).to_set.should == @matching_posts.to_set
-      end
-
-      it "should retrieve the requested locales when not empty" do
-        @options.merge!(:method => :title, :options => {:locale => :de})
-        helper.get_autocomplete_items(@options).to_set.should == @matching_de_posts.to_set
-      end
-    end
-
   end
   
   describe '#get_autocomplete_select_clause' do
