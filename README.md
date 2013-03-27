@@ -12,15 +12,17 @@ rails3-jquery-autocomplete 1.0 and globalize3 0.3 are supported.
 
 ## Installation
 
-This gem is not yet available via rubygems.
-
 Add this line to your application's Gemfile:
 
-    gem 'globalize3-jquery-autocomplete', :git => 'https://github.com/emjot/globalize3-jquery-autocomplete.git'
+    gem 'globalize3-jquery-autocomplete'
 
 And then execute:
 
     $ bundle
+
+Or install it yourself as:
+
+    $ gem install globalize3-jquery-autocomplete
 
 ## Usage
 
