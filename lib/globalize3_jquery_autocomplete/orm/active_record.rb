@@ -26,7 +26,9 @@ module Globalize3JQueryAutocomplete
 
           items = model.scoped
 
-          scopes.each { |scope| items = items.send(scope) } unless scopes.empty?
+          if scopes.present?
+            scopes.each { |scope| items = items.send(scope) }
+          end
 
           unless options[:full_model]
             items = items.select(get_autocomplete_select_clause(model, model_with_method, method, options))
@@ -39,7 +41,7 @@ module Globalize3JQueryAutocomplete
           items = items.where(get_autocomplete_where_clause(model_with_method, term, method, options)).
               limit(limit).order(order)
 
-          items = items.where(where) unless where.blank?
+          items = items.where(where) if where.present?
 
           items.all.uniq
         end
