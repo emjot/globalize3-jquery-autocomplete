@@ -8,8 +8,8 @@ Gem::Specification.new do |spec|
   spec.version       = Globalize3JqueryAutocomplete::VERSION
   spec.authors       = ["Maximilian Herold"]
   spec.email         = ["herold@emjot.de"]
-  spec.description   = %q{Enable rails3-jquery-autocomplete to work with globalize3 translated models.}
-  spec.summary       = %q{rails3-jquery-autocomplete with globalize3 translated models}
+  spec.description   = %q{Use jQuery's autocomplete plugin with Rails 3 and globalize3 translated models.}
+  spec.summary       = %q{Use jQuery's autocomplete plugin with Rails 3 and globalize3 translated models.}
   spec.homepage      = "https://github.com/emjot/globalize3-jquery-autocomplete"
   spec.license       = "MIT"
 
