@@ -6,6 +6,10 @@ Use JQuery autocomplete (via [rails3-jquery-autocomplete](https://github.com/cro
 
 Internals: This gem patches the `get_autocomplete_items` method (provided by rails3-jquery-autocomplete) so it works with translated model columns.
 
+## Maintainance State of This Gem
+
+Since we are not actively using this gem any more, further development is unlikely. If anyone wants to submit a PR, we will of course still try to review + merge. 
+
 ## Compatibility
 
 rails3-jquery-autocomplete 1.0 and globalize3 0.3 are supported.
